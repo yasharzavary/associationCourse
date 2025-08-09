@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}ثبت‌نام موفق{% endblock %}
+
+{% block content %}
+<main class="success-container">
+  <div class="success-box">
+    <h1>ثبت‌نام با موفقیت انجام شد ✅</h1>
+    <p>از ثبت‌نام شما سپاسگزاریم. به زودی به گروه تلگرام دوره اضافه خواهید شد.</p>
+    <p>ارتباط با روابط عمومی: اکانت تلگرامی انجمن @ce_khu_admin</p>
+    <a href="{% url 'index' %}" class="btn back-btn">بازگشت به لیست دوره‌ها</a>
+  </div>
+</main>
+{% endblock %}
