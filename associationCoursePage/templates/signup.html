@@ -1,94 +1,154 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static humanize %}
 
 {% block title %}ثبت‌نام در دوره{% endblock %}
 
 {% block content %}
 <main class="signup-container">
 
-  <!-- Course Info Section -->
-  <section class="signup-header">
-    <img src="{{ files }}media/pictures/course_pictures/{{ course.course_picture }}" alt="پوستر دوره" class="signup-poster">
-    <div class="course-price">
-      <p>قیمت دوره: <strong>{{ course.price }} تومان</strong></p>
-    </div>
-  </section>
-
-  <!-- Signup Form -->
-  <form method="POST" enctype="multipart/form-data" class="signup-form">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-
-    <div class="form-grid">
-
-      <div class="form-group">
-        {{ form.first_name.label_tag }}
-        {{ form.first_name }}
-        {{ form.first_name.errors }}
-      </div>
-
-      <div class="form-group">
-        {{ form.last_name.label_tag }}
-        {{ form.last_name }}
-        {{ form.last_name.errors }}
-      </div>
-
-      <div class="form-group">
-        {{ form.university.label_tag }}
-        {{ form.university }}
-        {{ form.university.errors }}
-      </div>
-
-      <div class="form-group">
-        {{ form.field.label_tag }}
-        {{ form.field }}
-        {{ form.field.errors }}
-      </div>
-
-      <div class="form-group">
-        {{ form.phone.label_tag }}
-        {{ form.phone }}
-        {{ form.phone.errors }}
-        <small class="telegram-warning">⚠️ این شماره برای افزودن به گروه تلگرام دوره استفاده خواهد شد.</small>
-      </div>
-
-      <div class="form-group">
-        {{ form.email.label_tag }}
-        {{ form.email }}
-        {{ form.email.errors }}
-      </div>
-
-      <div class="form-group full-width">
-        <label>چگونه با این دوره آشنا شدید؟</label>
-        <div class="radio-list">
-          {{ form.referrer }}
+    <!-- Course Info Section -->
+    <section class="signup-header">
+        <img src="{{ files }}media/pictures/course_pictures/{{ course.course_picture }}" alt="پوستر دوره"
+             class="signup-poster">
+        <div class="course-price">
+            <p>قیمت دوره: <strong id="coursePrice">{{ course.price|intcomma }} تومان</strong></p>
         </div>
-        {{ form.referrer.errors }}
-      </div>
+    </section>
 
-      <div class="form-group full-width">
-        <label>آپلود رسید پرداخت:</label>
-        {{ form.receipt }}
-        {{ form.receipt.errors }}
-      </div>
+    <!-- Signup Form -->
+    <form method="POST" enctype="multipart/form-data" class="signup-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
 
-    </div>
+        <div class="form-grid">
 
-    <div class="payment-info">
-      <h3>مراحل پرداخت:</h3>
-      <p>
-        لطفاً مبلغ <strong>{{ course.price }}</strong> تومان را به شماره کارت
-        <strong>1465-0718-8318-5859</strong> به نام <strong>یاشار زواری رضائی</strong> واریز کرده
-        و رسید پرداخت را در بخش زیر آپلود نمایید.
-      </p>
-    </div>
+            <div class="form-group">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+                {{ form.first_name.errors }}
+            </div>
 
-    <div class="form-actions">
-      <button type="submit" class="btn signup-btn">ثبت نهایی</button>
-      <a href="{% url 'index' %}" class="btn cancel-btn">لغو و بازگشت</a>
-    </div>
+            <div class="form-group">
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+                {{ form.last_name.errors }}
+            </div>
 
-  </form>
+            <div class="form-group">
+                {{ form.university.label_tag }}
+                {{ form.university }}
+                {{ form.university.errors }}
+                <small class="telegram-warning">⚠️ قیمت دوره مطابق با این گزینه تعیین می‌گردد. لطفاً پیش از ادامه، از
+                    درستی انتخاب خود اطمینان حاصل نمایید زیرا استعلام بر اساس این گزینه انجام می‌شود.</small>
+            </div>
+
+            <!-- Faculty name (shown for kharazmi_other and other) -->
+            <div class="form-group" id="facultyField" style="display: none;">
+                {{ form.faculty_name.label_tag }}
+                {{ form.faculty_name }}
+                {{ form.faculty_name.errors }}
+            </div>
+
+            <!-- University name (shown only for 'other') -->
+            <div class="form-group" id="universityOtherField" style="display: none;">
+                {{ form.university_name_other.label_tag }}
+                {{ form.university_name_other }}
+                {{ form.university_name_other.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.field.label_tag }}
+                {{ form.field }}
+                {{ form.field.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.telegramID.label_tag }}
+                {{ form.telegramID }}
+                {{ form.telegramID.errors }}
+                <small class="telegram-warning">⚠️ این آیدی برای افزودن به گروه تلگرام دوره استفاده خواهد شد.</small>
+            </div>
+
+            <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <div class="form-group full-width">
+                <label>چگونه با این دوره آشنا شدید؟</label>
+                <div class="radio-list">
+                    {{ form.referrer }}
+                </div>
+                {{ form.referrer.errors }}
+            </div>
+
+            <div class="form-group full-width">
+                <label>آپلود رسید پرداخت:</label>
+                {{ form.receipt }}
+                {{ form.receipt.errors }}
+            </div>
+
+        </div>
+
+        <div class="payment-info">
+            <h3>مراحل پرداخت:</h3>
+            <p>
+                لطفاً مبلغ <strong id="paymentPrice">{{ course.price|intcomma }}</strong> تومان را به شماره کارت
+                <strong>1465-0718-8318-5859</strong> به نام <strong>یاشار زواری رضائی</strong> واریز کرده
+                و رسید پرداخت را در بخش زیر آپلود نمایید.
+            </p>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn signup-btn">ثبت نهایی</button>
+            <a href="{% url 'index' %}" class="btn cancel-btn">لغو و بازگشت</a>
+        </div>
+
+    </form>
 
 </main>
+
+<!-- Dynamic show/hide fields and price -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const universitySelect = document.getElementById("id_university");
+        const facultyField = document.getElementById("facultyField");
+        const uniOtherField = document.getElementById("universityOtherField");
+        const priceElement = document.getElementById("coursePrice");
+        const paymentPriceElement = document.getElementById("paymentPrice");
+        const originalPrice = parseInt("{{ course.price }}");
+
+        function formatNumber(num) {
+            return num.toLocaleString('fa-IR');
+        }
+
+        function updateUI() {
+            const value = universitySelect.value;
+
+            // Reset fields
+            facultyField.style.display = "none";
+            uniOtherField.style.display = "none";
+
+            if (value === "kharazmi_engineering") {
+                // 50% discount
+                const discounted = Math.floor(originalPrice * 0.5);
+                priceElement.innerText = formatNumber(discounted) + " تومان";
+                paymentPriceElement.innerText = formatNumber(discounted);
+            } else if (value === "kharazmi_other") {
+                facultyField.style.display = "block";
+                priceElement.innerText = formatNumber(originalPrice) + " تومان";
+                paymentPriceElement.innerText = formatNumber(originalPrice);
+            } else if (value === "other") {
+                uniOtherField.style.display = "block";
+                facultyField.style.display = "block";
+                priceElement.innerText = formatNumber(originalPrice) + " تومان";
+                paymentPriceElement.innerText = formatNumber(originalPrice);
+            }
+        }
+
+        universitySelect.addEventListener("change", updateUI);
+        updateUI(); // Run on load
+    });
+</script>
 {% endblock %}

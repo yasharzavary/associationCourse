@@ -89,14 +89,27 @@ body {
   max-width: 1000px;
   margin: 30px auto;
   padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
 }
 
-/* Course Card Container */
+/* Course Card Wrapper */
 .course-card-wrapper {
   position: relative;
-  width: 100%;
+  width: 280px;
   max-width: 1000px;
   margin: 0 auto 30px auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  transition: transform 0.2s ease;
+}
+
+.course-card-wrapper:hover {
+  transform: translateY(-5px);
 }
 
 /* Card Overlay */
@@ -137,10 +150,15 @@ body {
 .course-poster-container {
   flex: 0 0 200px;
   margin-left: 20px;
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
 }
 
 .course-poster {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 10px;
   transition: transform 0.3s ease;
 }
@@ -152,22 +170,29 @@ body {
 /* Course Content */
 .course-content {
   flex: 1;
-  padding: 10px 0;
+  padding: 1rem 0 1rem 0;
+  direction: rtl;
+  text-align: right;
 }
 
 .course-content h2 {
+  margin: 0 0 0.5rem 0;
   font-size: 1.3rem;
   color: #003366;
-  margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .course-content p {
-  margin: 5px 0;
+  margin: 0.3rem 0;
+  color: #555;
+  font-size: 0.9rem;
 }
 
 .price {
   font-weight: bold;
-  color: #009688;
+  color: #E91E63; /* Pink color */
+  font-size: 1.1rem;
+  margin-top: 0.7rem;
 }
 
 /* Course Actions */
@@ -179,6 +204,8 @@ body {
   justify-content: center;
   margin-right: auto;
   padding-right: 10px;
+  padding: 0 1rem 1rem;
+  justify-content: space-between;
 }
 
 .course-actions .btn {
@@ -189,24 +216,26 @@ body {
 /* Buttons */
 .btn {
   text-decoration: none;
-  padding: 8px 15px;
-  background-color: #0077cc;
-  color: #fff;
+  padding: 0.5rem 1rem;
+  background-color: #2196F3;
+  color: white;
   border-radius: 4px;
   margin-left: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
   transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-  background-color: #005fa3;
+  background-color: #1769aa;
 }
 
 .signup-btn {
-  background-color: #009688;
+  background-color: #4CAF50;
 }
 
 .signup-btn:hover {
-  background-color: #00796b;
+  background-color: #3a8a34;
 }
 
 /* Course Detail Sections */
@@ -288,7 +317,7 @@ body {
   border: 2px solid #eee;
 }
 
-/* Course Actions */
+/* Course Action Buttons */
 .course-action-buttons {
   text-align: center;
   margin-top: 40px;
@@ -340,6 +369,7 @@ body {
   margin-bottom: 30px;
   flex-wrap: wrap;
   justify-content: center;
+  flex-direction: row;
 }
 
 .signup-poster {
@@ -373,9 +403,6 @@ body {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-family: inherit;
-}
-
-.signup-form input[type="file"] {
   background-color: #fff;
 }
 
@@ -490,6 +517,8 @@ body {
   .course-poster-container {
     margin-left: 0;
     margin-bottom: 15px;
+    width: 100%;
+    height: 160px;
   }
 
   .course-actions {
@@ -519,3 +548,4 @@ body {
     height: 120px;
   }
 }
+
