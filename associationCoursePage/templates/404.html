@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}یافت نشد{% endblock %}
+
+{% block content %}
+<main class="not-found-container">
+  <div class="not-found-box">
+    <h1>۴۰۴</h1>
+    <p>متأسفیم، صفحه مورد نظر یافت نشد.</p>
+    <a href="{% url 'index' %}" class="btn back-btn">بازگشت به لیست دوره‌ها</a>
+  </div>
+</main>
+{% endblock %}
