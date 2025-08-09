@@ -1,2 +1,5 @@
 .idea
 env
+associationCoursePage/db.sqlite3
+associationCoursePage/secret_key.txt
+.DS_store
