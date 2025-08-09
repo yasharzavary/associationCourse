@@ -72,7 +72,7 @@ for creating env, run this
 python -m venv venv
 
 ```
-**⚠warning**: if you use python version 11 or older, this code can give you error...in this case,
+**⚠warning**: if you use python version 11 or earlier, this code can give you error...in this case,
 you should use python3 instead of python. if this don't solve your problem, search or ask chat AIs for specific codes.
 
 after creating env, activate it.
