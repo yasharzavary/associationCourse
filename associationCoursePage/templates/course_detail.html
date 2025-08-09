@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}جزئیات دوره{% endblock %}
+
+{% block content %}
+<main class="course-detail-container">
+
+  <!-- Poster Section (Wider Full-Width Banner) -->
+  <section class="course-poster-banner wide-banner">
+    <img src="{{ files }}media/pictures/course_pictures/{{ course.course_picture }}" alt="پوستر دوره">
+  </section>
+
+  <!-- Section 1: Course Info -->
+  <section class="section-block">
+    <h2>{{ course.title }}</h2>
+    <p><strong>چرا این دوره مهم است؟</strong></p>
+    <p>{{ course.description }}</p>
+
+    <ul class="course-summary">
+      <li>قیمت دوره: {{ course.price }} تومان</li>
+      <li>تعداد جلسات: {{ course.sessions }} جلسه</li>
+      <li>شروع: {{ course.start_date }}</li>
+      <li>پایان: {{ course.end_date }}</li>
+    </ul>
+  </section>
+
+  <div class="section-divider wide-divider"></div>
+
+  <!-- Section 2: Teacher Info -->
+<section class="section-block teacher-resume-section">
+  {% if course.instructor == "unk" or course.resume.0 == "unk" %}
+    <div class="teacher-pending-box">
+      <p>این اطلاعات به‌زودی تکمیل خواهد شد.</p>
+    </div>
+  {% else %}
+    <div class="resume-content">
+      <div class="resume-info">
+        <h3>رزومه مدرس</h3>
+        <p><strong>نام مدرس:</strong> {{ course.instructor }}</p>
+        <ul class="teacher-details">
+          {% for item in course.resume %}
+            <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="teacher-photo-container">
+        <img src="{{ files }}media/pictures/teacher_pictures/{{ course.teacher }}" alt="عکس مدرس" class="teacher-photo">
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+
+  <!-- Section 3: Course Curriculum -->
+  <section class="section-block">
+    <h3>جزئیات جلسات دوره</h3>
+    <ul class="course-outline">
+      {% for session in course.sessions_detail %}
+        <li><strong>جلسه {{ forloop.counter }}:</strong> {{ session }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <!-- Action Buttons -->
+  <div class="course-action-buttons">
+    <a href="{% url 'index' %}" class="btn secondary-btn">بازگشت به لیست دوره‌ها</a>
+    <a href="{% url 'sign' course.id %}" class="btn signup-btn">ثبت‌نام در دوره</a>
+  </div>
+
+</main>
+{% endblock %}
