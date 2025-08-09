@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import sys
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$%!=(7rok9!&ul))1=mg%j-)*e=#f)mg)tl22$_3+r92#baxo+'
+with open(os.path.join(BASE_DIR, 'secret_key.txt'), 'r') as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.index.apps.IndexConfig'
+    'apps.index.apps.IndexConfig',
+    'apps.course.apps.CourseConfig',
+    'apps.signCourse.apps.SigncourseConfig',
 
 ]
 
@@ -125,8 +129,8 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic in production
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+FILES_URL = '/files/'
+FILES_ROOT = BASE_DIR / 'files'
 
 
 # Default primary key field type
