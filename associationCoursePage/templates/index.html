@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}صفحه اصلی{% endblock %}
+
+{% block content %}
+<main class="course-list">
+  {% for course in courses %}
+<div class="course-card-wrapper">
+  <div class="course-card">
+    <!-- Course Poster -->
+    <div class="course-poster-container">
+      <img src="{{files}}media/pictures/course_pictures/{{course.course_picture}}" alt="پوستر دوره" class="course-poster">
+    </div>
+
+    <!-- Description -->
+    <div class="course-content">
+      <h2>{{ course.title }}</h2>
+      {% if course.instructor == "unk" %}
+        <p>مدرس: نامشخص</p>
+      {% else %}
+        <p>مدرس: {{ course.instructor }}</p>
+      {% endif %}
+      <p>تاریخ برگزاری: {{ course.date }}</p>
+      <p class="price">قیمت: {{ course.price }} تومان</p>
+    </div>
+
+    <!-- Actions -->
+    <div class="course-actions">
+      <a href="{% url 'course' course.id %}" class="btn">جزئیات</a>
+      <a href="{% url 'sign' course.id %}" class="btn signup-btn">ثبت‌نام</a>
+    </div>
+  </div>
+
+  {% if course.instructor == "unk" %}
+    <div class="card-overlay">
+      <span class="overlay-text">به‌زودی اضافه خواهد شد</span>
+    </div>
+  {% endif %}
+</div>
+
+  {% endfor %}
+</main>
+{% endblock %}
