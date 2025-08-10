@@ -7,6 +7,8 @@ from .forms import SignupForm
 from django.core.mail import send_mail
 from uuid import uuid4
 from django.template.loader import render_to_string
+from string import ascii_lowercase, digits
+from random import choice
 
 def sign(request, pk):
     file_url = settings.FILES_URL
@@ -44,6 +46,19 @@ def sign(request, pk):
             user_dir = os.path.join(settings.BASE_DIR, 'signups', user_id)
             os.makedirs(user_dir, exist_ok=True)
 
+            track_code = ''.join([choice(digits + ascii_lowercase) for _ in range(10)])
+            have = True
+            while have:
+                have = False
+                with open(f'{settings.BASE_DIR}{file_url}/core/track_codes.txt', 'r') as f:
+                    line_read_file = {line.strip() for line in f}
+                    if track_code in line_read_file:
+                        ''.join([choice(digits + ascii_lowercase) for _ in range(10)])
+                        have = True
+
+            with open(f'{settings.BASE_DIR}{file_url}/core/track_codes.txt', 'a') as f:
+                f.write(track_code + '\n')
+
             # Save user data as JSON
             user_data = {
                 'first_name': cleaned['first_name'],
@@ -57,7 +72,9 @@ def sign(request, pk):
                 'course_id': course['id'],
                 'course_title': course['title'],
                 'price': price,
+                'track_code': track_code,
             }
+
             with open(os.path.join(user_dir, 'details.json'), 'w', encoding='utf-8') as json_file:
                 json.dump(user_data, json_file, ensure_ascii=False, indent=2)
 
@@ -69,10 +86,8 @@ def sign(request, pk):
                 for chunk in receipt.chunks():
                     destination.write(chunk)
 
-
-            message = render_to_string('emailreceipt.html', {'cleaned': cleaned})
-
-
+            message = render_to_string('emailreceipt.html', {'cleaned': cleaned,
+                                                             'track_code': track_code})
             # send email of sign up to user
             send_mail( 'تأیید ثبت‌نام شما در دوره ' + course['title'],
                       "ثبت‌نام شما با موفقیت انجام شد.",
@@ -80,7 +95,8 @@ def sign(request, pk):
                       html_message=message)
 
             # Render success page
-            return render(request, 'signsucc.html', {'name': cleaned['first_name'], 'files': file_url})
+            return render(request, 'signsucc.html', {'name': cleaned['first_name'],
+                                                     'files': file_url, 'track_code': track_code})
 
     else:
         form = SignupForm()
