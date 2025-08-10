@@ -1,14 +1,149 @@
 {% extends 'base.html' %}
-
 {% block title %}ثبت‌نام موفق{% endblock %}
 
 {% block content %}
-<main class="success-container">
-  <div class="success-box">
-    <h1>ثبت‌نام با موفقیت انجام شد ✅</h1>
-    <p>از ثبت‌نام شما سپاسگزاریم. به زودی به گروه تلگرام دوره اضافه خواهید شد.</p>
-    <p>ارتباط با روابط عمومی: اکانت تلگرامی انجمن @ce_khu_admin</p>
-    <a href="{% url 'index' %}" class="btn back-btn">بازگشت به لیست دوره‌ها</a>
-  </div>
-</main>
+    <style>
+        body {
+            background: #f5f7fa;
+            font-family: Tahoma, Arial, sans-serif;
+            direction: rtl;
+            color: #333;
+        }
+
+        .success-container {
+            min-height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .success-box {
+            background: white;
+            max-width: 480px;
+            width: 100%;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .success-box h1 {
+            color: #27ae60;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .success-box p {
+            font-size: 16px;
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+
+        label[for="trackCodeInput"] {
+            display: block;
+            margin-top: 25px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #trackCodeInput {
+            font-size: 20px;
+            padding: 10px 12px;
+            width: 100%;
+            max-width: 280px;
+            border: 2px solid #27ae60;
+            border-radius: 6px;
+            text-align: center;
+            direction: ltr;
+            user-select: all;
+            margin: 0 auto 15px;
+            display: block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #trackCodeInput:focus {
+            outline: none;
+            background-color: #eaf9ea;
+        }
+
+        button.copy-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 25px;
+        }
+
+        button.copy-btn:hover {
+            background-color: #219150;
+        }
+
+        a.back-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        a.back-btn:hover {
+            background-color: #217dbb;
+        }
+
+        .contact-info {
+            font-size: 14px;
+            color: #777;
+            margin-top: 10px;
+            user-select: text;
+        }
+    </style>
+
+    <main class="success-container">
+        <div class="success-box">
+            <h1>ثبت‌نام با موفقیت انجام شد ✅</h1>
+            <p>از ثبت‌نام شما سپاسگزاریم. به زودی به گروه تلگرام دوره اضافه خواهید شد.</p>
+
+            <label for="trackCodeInput">کد پیگیری شما:</label>
+            <input type="text" id="trackCodeInput" value="{{ track_code }}" readonly title="برای کپی کلیک کنید"
+                   onclick="this.select()">
+
+            <button class="copy-btn" onclick="copyTrackCode()">کپی کد پیگیری</button>
+
+            <p>در صورت بروز هرگونه مشکل، این کد را در اختیار روابط عمومی انجمن علمی قرار دهید.</p>
+            <p class="contact-info">ارتباط با روابط عمومی: اکانت تلگرامی انجمن <strong><p><a
+                    href="https://t.me/ce_khu_admin" target="_blank">@ce_khu_admin</a></p>
+            </strong></p>
+
+            <a href="{% url 'index' %}" class="back-btn">بازگشت به لیست دوره‌ها</a>
+        </div>
+    </main>
+
+    <script>
+        function copyTrackCode() {
+            const copyText = document.getElementById("trackCodeInput");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert("کد پیگیری کپی شد: " + copyText.value);
+                } else {
+                    alert("لطفاً کد را به صورت دستی کپی کنید.");
+                }
+            } catch (err) {
+                alert("مرورگر شما از کپی خودکار پشتیبانی نمی‌کند. لطفاً به صورت دستی کپی کنید.");
+            }
+        }
+    </script>
 {% endblock %}
