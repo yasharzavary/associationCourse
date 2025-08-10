@@ -1,7 +1,7 @@
 # apps/signCourse/views.py
 import os
 import json
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django.conf import settings
 from .forms import SignupForm
 from django.core.mail import send_mail
@@ -9,6 +9,7 @@ from uuid import uuid4
 from django.template.loader import render_to_string
 from string import ascii_lowercase, digits
 from random import choice
+
 
 def sign(request, pk):
     file_url = settings.FILES_URL
@@ -91,7 +92,7 @@ def sign(request, pk):
 
             try:
                 # send email of sign up to user
-                send_mail( 'تأیید ثبت‌نام شما در دوره ' + course['title'],
+                send_mail('تأیید ثبت‌نام شما در دوره ' + course['title'],
                           "ثبت‌نام شما با موفقیت انجام شد.",
                           settings.EMAIL_HOST_USER, [cleaned['email']],
                           html_message=message)
@@ -99,12 +100,45 @@ def sign(request, pk):
                 return render(request, 'signsucc.html', {'name': cleaned['first_name'],
                                                          'files': file_url, 'track_code': track_code})
             except:
+                del cleaned['receipt']
+                os.mkdir(f'{settings.BASE_DIR}{file_url}/core/emails/{track_code}')
+                with open(f'{settings.BASE_DIR}{file_url}/core/emails/{track_code}/details.json', 'w') as f:
+                    json.dump({'cleaned': cleaned, 'track_code': track_code, 'course': course},
+                              f, ensure_ascii=False, indent=2)
+
                 # Render success page
                 return render(request, 'signsucc.html', {'name': cleaned['first_name'],
                                                          'files': file_url, 'track_code': track_code,
-                'error': 'در حال حاضر سرور ایمیل در دسترس نیست، بعد از اتصال تاییدیه ثبت نام شما ارسال خواهد شد.'})
-
+                                                         'error': 'در حال حاضر سرور ایمیل در دسترس نیست، بعد از اتصال تاییدیه ثبت نام شما ارسال خواهد شد.'})
     else:
         form = SignupForm()
 
     return render(request, 'signup.html', {'course': course, 'files': file_url, 'form': form})
+
+
+def send_emails_offline(req):
+    base_url = settings.BASE_DIR
+    file_url = settings.FILES_URL
+    for file_dir in os.listdir(f'{base_url}{file_url}core/emails'):
+        with open(f'{base_url}{file_url}core/emails/{file_dir}/details.json', 'r') as f:
+            data = json.load(f)
+        cleaned = data['cleaned']
+        course = data['course']
+        track_code = data['track_code']
+
+        message = render_to_string('emailreceipt.html', {'cleaned': cleaned,
+                                                         'track_code': track_code})
+        try:
+            # send email of sign up to user
+            send_mail('تأیید ثبت‌نام شما در دوره ' + course['title'],
+                      "ثبت‌نام شما با موفقیت انجام شد.",
+                      settings.EMAIL_HOST_USER, [cleaned['email']],
+                      html_message=message)
+            for file in os.listdir(f'{base_url}{file_url}core/emails/{file_dir}'):
+                os.remove(os.path.join(f'{base_url}{file_url}core/emails/{file_dir}', file))
+            os.rmdir(f'{base_url}{file_url}core/emails/{file_dir}')
+        except Exception as e:
+            print(e)
+            print(f'{file_dir} doesn\'t send to user')
+
+    return HttpResponse('<h1>done</h1>')
