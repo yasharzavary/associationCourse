@@ -4,7 +4,9 @@ import json
 from django.shortcuts import render
 from django.conf import settings
 from .forms import SignupForm
+from django.core.mail import send_mail
 from uuid import uuid4
+from django.template.loader import render_to_string
 
 def sign(request, pk):
     file_url = settings.FILES_URL
@@ -66,6 +68,16 @@ def sign(request, pk):
             with open(receipt_path, 'wb+') as destination:
                 for chunk in receipt.chunks():
                     destination.write(chunk)
+
+
+            message = render_to_string('emailreceipt.html', {'cleaned': cleaned})
+
+
+            # send email of sign up to user
+            send_mail( 'تأیید ثبت‌نام شما در دوره ' + course['title'],
+                      "ثبت‌نام شما با موفقیت انجام شد.",
+                      settings.EMAIL_HOST_USER, [cleaned['email']],
+                      html_message=message)
 
             # Render success page
             return render(request, 'signsucc.html', {'name': cleaned['first_name'], 'files': file_url})
