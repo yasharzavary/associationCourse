@@ -209,6 +209,14 @@ body {
   background-color: #00796b;
 }
 
+.signup-btn2 {
+  background-color: #009688;
+}
+
+.signup-btn2:hover {
+  background-color: #00796b;
+}
+
 /* Course Detail Sections */
 .course-detail-container {
   max-width: 1000px;
