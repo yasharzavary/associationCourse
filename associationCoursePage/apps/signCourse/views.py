@@ -88,15 +88,21 @@ def sign(request, pk):
 
             message = render_to_string('emailreceipt.html', {'cleaned': cleaned,
                                                              'track_code': track_code})
-            # send email of sign up to user
-            send_mail( 'تأیید ثبت‌نام شما در دوره ' + course['title'],
-                      "ثبت‌نام شما با موفقیت انجام شد.",
-                      settings.EMAIL_HOST_USER, [cleaned['email']],
-                      html_message=message)
 
-            # Render success page
-            return render(request, 'signsucc.html', {'name': cleaned['first_name'],
-                                                     'files': file_url, 'track_code': track_code})
+            try:
+                # send email of sign up to user
+                send_mail( 'تأیید ثبت‌نام شما در دوره ' + course['title'],
+                          "ثبت‌نام شما با موفقیت انجام شد.",
+                          settings.EMAIL_HOST_USER, [cleaned['email']],
+                          html_message=message)
+                # Render success page
+                return render(request, 'signsucc.html', {'name': cleaned['first_name'],
+                                                         'files': file_url, 'track_code': track_code})
+            except:
+                # Render success page
+                return render(request, 'signsucc.html', {'name': cleaned['first_name'],
+                                                         'files': file_url, 'track_code': track_code,
+                'error': 'در حال حاضر سرور ایمیل در دسترس نیست، بعد از اتصال تاییدیه ثبت نام شما ارسال خواهد شد.'})
 
     else:
         form = SignupForm()
