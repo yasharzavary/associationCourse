@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تأیید ثبت‌نام</title>
+    <style>
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+        }
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 22px;
+        }
+        .content {
+            padding: 20px;
+            line-height: 1.8;
+            color: #333333;
+        }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .content table td {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .footer {
+            background-color: #f1f1f1;
+            color: #555;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body dir="rtl">
+    <div class="container">
+        <div class="header">
+            ثبت‌نام شما با موفقیت انجام شد
+        </div>
+        <div class="content">
+            <p>کاربر گرامی <span class="highlight">{{ cleaned.first_name }} {{ cleaned.last_name }}</span>،</p>
+            <p>از ثبت‌نام شما سپاسگزاریم. اطلاعات ثبت‌نام شما به شرح زیر است:</p>
+            <table>
+                <tr>
+                    <td>نام</td>
+                    <td>{{ cleaned.first_name }}</td>
+                </tr>
+                <tr>
+                    <td>نام خانوادگی</td>
+                    <td>{{ cleaned.last_name }}</td>
+                </tr>
+                <tr>
+                    <td>دانشگاه</td>
+                    <td>{{ cleaned.university }}</td>
+                </tr>
+                {% if cleaned.faculty_name %}
+                <tr>
+                    <td>نام دانشکده</td>
+                    <td>{{ cleaned.faculty_name }}</td>
+                </tr>
+                {% endif %}
+                {% if cleaned.university_name_other %}
+                <tr>
+                    <td>نام دانشگاه (سایر)</td>
+                    <td>{{ cleaned.university_name_other }}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td>رشته تحصیلی</td>
+                    <td>{{ cleaned.field }}</td>
+                </tr>
+                <tr>
+                    <td>آیدی تلگرام</td>
+                    <td>{{ cleaned.telegramID }}</td>
+                </tr>
+                <tr>
+                    <td>ایمیل</td>
+                    <td>{{ cleaned.email }}</td>
+                </tr>
+            </table>
+            <p>رسید پرداخت شما نیز با موفقیت ثبت شد.</p>
+            <p style="color: red">در صورت عدم صحت این اطلاعات، لطفا با روابط عمومی انجمن به آیدی تلگرام ce_khu_admin اطلاع دهید.</p>
+        </div>
+        <div class="footer">
+            انجمن کامپیوتر دانشگاه خوارزمی<br>
+            <small>این ایمیل به صورت خودکار ارسال شده است؛ لطفاً به آن پاسخ ندهید.</small>
+        </div>
+    </div>
+</body>
+</html>
