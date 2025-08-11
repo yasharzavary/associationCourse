@@ -1,73 +1,171 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block title %} جزئیات دوره: {{ course.title }}
+{%endblock title %} {% block content %}
+<style>
+  /* استایل‌های اختصاصی برای این صفحه */
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    align-items: start;
+    gap: 40px;
+  }
+  .main-content {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+  .sidebar {
+    position: sticky;
+    top: 120px;
+  }
+  .sidebar-widget {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+  .sidebar-widget h3 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e8eef3;
+  }
+  .sidebar-widget ul {
+    list-style: none;
+    padding: 0;
+  }
+  .sidebar-widget li {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #e8eef3;
+  }
+  .sidebar-widget li:last-child {
+    border-bottom: none;
+  }
+  .sidebar-widget .btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .btn.signup-btn {
+    background: #4a90e2;
+    color: white;
+  }
+  .btn.secondary-btn {
+    background: #7f8c8d;
+    color: white;
+  }
 
-{% block title %}جزئیات دوره{% endblock %}
+  @media (max-width: 992px) {
+    .detail-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 
-{% block content %}
-<main class="course-detail-container">
+<div class="detail-grid">
+  <div class="main-content">
+    <h1>{{ course.title }}</h1>
 
-  <!-- Poster Section (Wider Full-Width Banner) -->
-  <section class="course-poster-banner wide-banner">
-    <img src="{{ files }}media/pictures/course_pictures/{{ course.course_picture }}" alt="پوستر دوره">
-  </section>
-
-  <!-- Section 1: Course Info -->
-  <section class="section-block">
-    <h2>{{ course.title }}</h2>
     <p><strong>چرا این دوره مهم است؟</strong></p>
-      {% for item in course.why %}
-        <li>{{ item }}</li>
+    <p>
+      {{ course.description|default:"توضیحات مربوط به اهمیت و محتوای این دوره به زودی در این بخش قرار خواهد گرفت." }}
+    </p>
+
+    <hr style="border-color: #e8eef3; margin: 30px 0" />
+
+    <h3>درباره مدرس</h3>
+    {% if course.instructor and course.instructor != "unk" %}
+    <p><strong>نام مدرس:</strong> {{ course.instructor }}</p>
+    <ul>
+      {% for item in course.resume %}
+      <li>{{ item }}</li>
       {% endfor %}
-
-    <ul class="course-summary">
-      <li>قیمت دوره: {{ course.price }} تومان</li>
-      <li>تعداد جلسات: {{ course.class_number }} جلسه</li>
-      <li>شروع: {{ course.start_date }}</li>
-      <li>پایان: {{ course.end_date }}</li>
     </ul>
-  </section>
+    {% else %}
+    <p>اطلاعات مدرس به زودی تکمیل خواهد شد.</p>
+    {% endif %}
 
-  <div class="section-divider wide-divider"></div>
+    <hr style="border-color: #e8eef3; margin: 30px 0" />
 
-  <!-- Section 2: Teacher Info -->
-<section class="section-block teacher-resume-section">
-  {% if course.instructor == "unk" or course.resume.0 == "unk" %}
-    <div class="teacher-pending-box">
-      <p>این اطلاعات به‌زودی تکمیل خواهد شد.</p>
-    </div>
-  {% else %}
-    <div class="resume-content">
-      <div class="resume-info">
-        <h3>رزومه مدرس</h3>
-        <p><strong>نام مدرس:</strong> {{ course.instructor }}</p>
-        <ul class="teacher-details">
-          {% for item in course.resume %}
-            <li>{{ item }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div class="teacher-photo-container">
-        <img src="{{ files }}media/pictures/teacher_pictures/{{ course.teacher }}" alt="عکس مدرس" class="teacher-photo">
-      </div>
-    </div>
-  {% endif %}
-</section>
-
-
-  <!-- Section 3: Course Curriculum -->
-  <section class="section-block">
-    <h3>جزئیات جلسات دوره</h3>
-    <ul class="course-outline">
+    <h3>سرفصل‌های دوره</h3>
+    <ul>
       {% for session in course.sessions_detail %}
-        <li><strong>جلسه {{ forloop.counter }}:</strong> {{ session }}</li>
+      <li><strong>جلسه {{ forloop.counter }}:</strong> {{ session }}</li>
+      {% empty %}
+      <li>سرفصل‌ها به زودی اعلام می‌شود.</li>
       {% endfor %}
     </ul>
-  </section>
-
-  <!-- Action Buttons -->
-  <div class="course-action-buttons">
-    <a href="{% url 'index' %}" class="btn secondary-btn">بازگشت به لیست دوره‌ها</a>
-    <a href="{% url 'sign' course.id %}" class="btn signup-btn">ثبت‌نام در دوره</a>
   </div>
 
-</main>
-{% endblock %}
+  <aside class="sidebar">
+    <div class="sidebar-widget">
+      <img
+        src="{{ files }}media/pictures/course_pictures/{{ course.course_picture }}"
+        alt="پوستر دوره"
+        style="width: 100%; border-radius: 8px"
+      />
+      <a
+        href="{% url 'sign' course.id %}"
+        class="btn signup-btn"
+        style="width: 100%; margin-top: 20px; box-sizing: border-box"
+        >ثبت‌نام در این دوره</a
+      >
+    </div>
+    <div class="sidebar-widget">
+      <h3>اطلاعات کلیدی دوره</h3>
+      <ul>
+        <li class="price-item" data-price="{{ course.price }}">
+          <span>قیمت دوره:</span>
+          <strong>{{ course.price }} تومان</strong>
+        </li>
+        <li>
+          <span>تعداد جلسات:</span>
+          <strong>{{ course.class_number|default:"نامشخص" }} جلسه</strong>
+        </li>
+        <li>
+          <span>شروع:</span>
+          <strong>{{ course.start_date|default:"نامشخص" }}</strong>
+        </li>
+        <li>
+          <span>پایان:</span>
+          <strong>{{ course.end_date|default:"نامشخص" }}</strong>
+        </li>
+      </ul>
+    </div>
+    <a
+      href="{% url 'index' %}"
+      class="btn secondary-btn"
+      style="width: 100%; box-sizing: border-box"
+      >بازگشت به لیست دوره‌ها</a
+    >
+  </aside>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    function toPersianDigits(numStr) {
+      if (!numStr) return "";
+      const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+      return String(numStr).replace(/\d/g, (d) => persianDigits[d]);
+    }
+
+    // پردازش قیمت با استفاده از همان منطق موفق صفحه اصلی
+    document.querySelectorAll(".price-item").forEach((el) => {
+      const priceValue = el.getAttribute("data-price").trim();
+      const strongTag = el.querySelector("strong");
+
+      if (priceValue && !isNaN(parseInt(priceValue))) {
+        const num = parseInt(priceValue);
+        strongTag.textContent = `${toPersianDigits(
+          num.toLocaleString("fa-IR")
+        )} تومان`;
+      } else {
+        strongTag.textContent = "رایگان";
+        strongTag.style.color = "#27ae60";
+      }
+    });
+  });
+</script>
+
+{% endblock content %}

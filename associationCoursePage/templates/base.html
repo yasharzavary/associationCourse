@@ -1,56 +1,62 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <title>{% block title %}دوره‌های آموزشی{% endblock %}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="{% static 'css/style.css' %}" rel="stylesheet">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}انجمن کامپیوتر خوارزمی{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="{% static 'css/base.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="site-wrapper">
+      <header class="main-header">
+        <a href="{% url 'index' %}">
+          <img
+            src="{{ files }}media/pictures/logos/uni.png"
+            alt="لوگوی دانشگاه"
+            class="logo"
+          />
+        </a>
+        <h1>دوره‌های آموزشی انجمن کامپیوتر</h1>
+        <a href="{% url 'index' %}">
+          <img
+            src="{{ files }}media/pictures/logos/khu_ce.png"
+            alt="لوگوی انجمن"
+            class="logo"
+          />
+        </a>
+      </header>
 
-<div class="site-wrapper">
+      <main>{% block content %} {% endblock %}</main>
 
-  <!-- Header -->
-  <header class="main-header">
-    <div class="logo-container white-bg">
-      <img src="{{ files }}media/pictures/logos/uni.png" alt="لوگوی دانشگاه" class="logo">
+      <footer class="main-footer">
+        <div class="footer-content">
+          <p>
+            © تمامی حقوق برای انجمن علمی مهندسی کامپیوتر دانشگاه خوارزمی محفوظ
+            است.
+          </p>
+          <div class="footer-section">
+            <p>
+              ارتباط با ما در تلگرام:
+              <a href="https://t.me/ce_khu_admin" target="_blank"
+                >@ce_khu_admin</a
+              >
+            </p>
+          </div>
+          <div class="footer-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3235.195722288325!2d51.0116631152627!3d35.82025818016254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8dbc6d3b3c3f3d%3A0x868b75f8f96e4e10!2sKharazmi%20University!5e0!3m2!1sen!2sus!4v1678886029745!5m2!1sen!2sus"
+              width="100%"
+              height="250"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            >
+            </iframe>
+          </div>
+        </div>
+      </footer>
     </div>
-    <h1>دوره‌های آموزشی انجمن مهندسی کامپیوتر</h1>
-    <div class="logo-container">
-      <img src="{{ files }}media/pictures/logos/khu_ce.png" alt="لوگوی انجمن" class="logo">
-    </div>
-  </header>
-
-  {% block content %}
-  {% endblock %}
-
-  <!-- Footer -->
-  <footer class="main-footer">
-    <div class="footer-content">
-      <p>© تمامی حقوق متعلق است به انجمن مهندسی کامپیوتر دانشگاه خوارزمی</p>
-
-      <div class="footer-section">
-        <h4>آدرس</h4>
-        <p> کرج، انتهای خیابان شهید بهشتی، میدان دانشگاه، دانشگاه خوارزمی تهران(واحد کرج)، دانشکده فنی و مهندسی، طبقه دوم، پارتیشن انجمن علمی مهندسی کامپیوتر</p>
-      </div>
-
-      <div class="footer-section">
-        <h4>ارتباط با ما در تلگرام</h4>
-        <p><a href="https://t.me/ce_khu_admin" target="_blank">@ce_khu_admin</a></p>
-      </div>
-
-      <div class="footer-map">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1177.3010856780097!2d50.91847730952024!3d35.85631149781553!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8dbbe923321663%3A0x3de9f55f888b9556!2sEngineering%20Faculty%20of%20Kharazmi%20University!5e0!3m2!1sen!2s!4v1754460471995!5m2!1sen!2s"
-          width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy">
-        </iframe>
-      </div>
-    </div>
-  </footer>
-
-</div>
-
-<script src="{% static 'js/script.js' %}"></script>
-</body>
+  </body>
 </html>
