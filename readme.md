@@ -22,7 +22,7 @@ The platform is built with **Django** and is currently live at:
 ## 🖼 Screenshots
 
 ### 1. Homepage
-![Homepage Screenshot](docs/images/home.png)
+![Homepage Screenshot](docs/images/Home.png)
 
 ### 2. Course Details Page
 ![Course Details Screenshot](docs/images/detail.png)
