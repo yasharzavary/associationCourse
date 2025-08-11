@@ -1,0 +1,26 @@
+{
+  "cleaned": {
+    "first_name": "Amirmahdi",
+    "last_name": "Akbari",
+    "university": "kharazmi_engineering",
+    "faculty_name": "",
+    "university_name_other": "",
+    "field": "مهندسی کامپیوتر",
+    "telegramID": "Amirr_Akbarii",
+    "email": "akbarymahdiamir14@gmail.com",
+    "referrer": "channel_own"
+  },
+  "track_code": "ks64n086xz",
+  "course": {
+    "id": 1,
+    "title": "نظریه زبان ها و ماشین ها",
+    "instructor": "یاشار زواری رضائی",
+    "date": "29-05-1404",
+    "price": "200000",
+    "start_date": "29-05-1404",
+    "end_date": "30-05-1404",
+    "course_picture": "machine_theory.png",
+    "class_number": 4,
+    "teacher": "yashar.png"
+  }
+}
