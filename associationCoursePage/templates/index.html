@@ -1,69 +1,94 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load static %} {% load humanize %}
+{% block title%}
+ صفحه اصلی - دوره‌های آموزشی
+ {% endblock title %}
 
-{% block title %}صفحه اصلی{% endblock %}
+<!-- {% block styles %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet" />
+{% endblock styles %} -->
 
 {% block content %}
-<main class="course-list">
+
+<h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 40px">
+  دوره‌های آموزشی
+</h2>
+
+<section class="course-list">
+  <div class="course-grid">
     {% for course in courses %}
-    <div class="course-card-wrapper">
-        <div class="course-card">
-            <!-- Course Poster -->
-            <div class="course-poster-container">
-                <img src="{{ files }}media/pictures/course_pictures/{{ course.course_picture }}" alt="پوستر دوره"
-                     class="course-poster">
-            </div>
+    <div class="course-card">
+      {% if course.instructor == "unk" %}
+      <div class="card-overlay">
+        <span class="overlay-text">به زودی</span>
+      </div>
+      {% endif %}
 
-            <!-- Description -->
-            <div class="course-content">
-                <h2>{{ course.title }}</h2>
-                {% if course.instructor == "unk" %}
-                <p>مدرس: نامشخص</p>
-                {% else %}
-                <p>مدرس: {{ course.instructor }}</p>
-                {% endif %}
-                <p>تاریخ برگزاری: {{ course.date }}</p>
-                <p class="price">
-                    قیمت: <span class="price-number" data-price="{{ course.price }}">{{ course.price }}</span> تومان
-                </p>
-            </div>
+      <a href="{% url 'course' course.id %}" class="course-poster-container">
+        <img
+          src="{{ files }}media/pictures/course_pictures/{{ course.course_picture }}"
+          alt="پوستر دوره {{ course.title }}"
+          class="course-poster"
+        />
+      </a>
 
-            <!-- Actions -->
-            <div class="course-actions">
-                <a href="{% url 'course' course.id %}" class="btn">جزئیات</a>
-                <a href="{% url 'sign' course.id %}" class="btn signup-btn">ثبت‌نام</a>
-            </div>
+      <div class="course-content">
+        <h2>{{ course.title }}</h2>
+
+        <div class="course-info">
+          <span>
+            {% if course.instructor == "unk" %} مدرس: نامشخص {% else %} مدرس:
+            {{course.instructor }} {%endif %}
+          </span>
+          <span class="price">
+            <span class="price-number" data-price="{{ course.price }}"
+              >{{ course.price }}</span
+            >
+            <span> تومان</span>
+          </span>
         </div>
 
-        {% if course.instructor == "unk" %}
-        <div class="card-overlay">
-            <span class="overlay-text">به‌زودی اضافه خواهد شد</span>
+        <div class="course-actions">
+          <a href="{% url 'course' course.id %}" class="btn btn-secondary"
+            >جزئیات</a
+          >
+          <a href="{% url 'sign' course.id %}" class="btn btn-primary"
+            >ثبت‌نام</a
+          >
         </div>
-        {% endif %}
+      </div>
     </div>
     {% endfor %}
-</main>
+  </div>
+</section>
 
 <script>
-    // Format numbers with Persian digits and thousand separators
-    function toPersianDigits(numStr) {
-        const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
-        return numStr.replace(/\d/g, d => persianDigits[d]);
-    }
+  // تابع برای تبدیل اعداد انگلیسی به فارسی
+  function toPersianDigits(numStr) {
+    if (!numStr) return "";
+    const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+    return numStr.toString().replace(/\d/g, (d) => persianDigits[d]);
+  }
 
-    function formatPriceElements() {
-        document.querySelectorAll('.price-number').forEach(el => {
-            let num = parseInt(el.dataset.price, 10);
-            if (!isNaN(num)) {
-                // format with thousands separator
-                let formatted = num.toLocaleString('fa-IR');
-                // convert digits to Persian
-                formatted = toPersianDigits(formatted);
-                el.textContent = formatted;
-            }
-        });
-    }
+  // تابع اصلی برای فرمت کردن قیمت‌ها
+  function formatPriceElements() {
+    document.querySelectorAll(".price-number").forEach((el) => {
+      let priceStr = el.dataset.price.trim();
+      // اگر قیمت، عدد نیست (مانند "-")، آن را همانطور نمایش بده
+      if (isNaN(parseInt(priceStr, 10))) {
+        el.textContent = "رایگان"; // یا هر متن دیگری مثل "نامشخص"
+        // اگر می‌خواهید خود "-" نمایش داده شود، خط بالا را کامنت کنید
+        // el.textContent = priceStr;
+      } else {
+        let num = parseInt(priceStr, 10);
+        // فرمت با جداکننده هزارگان
+        let formatted = num.toLocaleString("fa-IR");
+        el.textContent = formatted;
+      }
+    });
+  }
 
-    document.addEventListener('DOMContentLoaded', formatPriceElements);
+  // اجرای اسکریپت پس از بارگذاری کامل صفحه
+  document.addEventListener("DOMContentLoaded", formatPriceElements);
 </script>
 
-{% endblock %}
+{% endblock content %}
