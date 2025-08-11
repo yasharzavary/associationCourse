@@ -16,13 +16,19 @@ def course_detail(request, pk):
     if not details:
         return render(request, '404.html')
 
-    name = details['teacher'].split('.')[0]
+    name = details['course_picture'].split('.')[0]
+    teacher_name = details['teacher'].split('.')[0]
     with open(f'{settings.BASE_DIR}{file_url}/information/teacher_resumes.json', 'r') as f:
         for teacher in json.load(f):
-            if teacher['name'] == name:
+            if teacher['name'] == teacher_name:
                 details.update(teacher)
 
     with open(f'{settings.BASE_DIR}{file_url}/information/session_details.json', 'r') as f:
+        for detail in json.load(f):
+            if detail['name'] == name:
+                details.update(detail)
+
+    with open(f'{settings.BASE_DIR}{file_url}/information/why_this_course.json', 'r') as f:
         for detail in json.load(f):
             if detail['name'] == name:
                 details.update(detail)

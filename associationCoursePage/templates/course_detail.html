@@ -14,11 +14,13 @@
   <section class="section-block">
     <h2>{{ course.title }}</h2>
     <p><strong>چرا این دوره مهم است؟</strong></p>
-    <p>{{ course.description }}</p>
+      {% for item in course.why %}
+        <li>{{ item }}</li>
+      {% endfor %}
 
     <ul class="course-summary">
       <li>قیمت دوره: {{ course.price }} تومان</li>
-      <li>تعداد جلسات: {{ course.sessions }} جلسه</li>
+      <li>تعداد جلسات: {{ course.class_number }} جلسه</li>
       <li>شروع: {{ course.start_date }}</li>
       <li>پایان: {{ course.end_date }}</li>
     </ul>
