@@ -1,0 +1,26 @@
+{
+  "cleaned": {
+    "first_name": "Amirmahdi",
+    "last_name": "Akbari",
+    "university": "kharazmi_engineering",
+    "faculty_name": "",
+    "university_name_other": "",
+    "field": "مهندسی کامپیوتر",
+    "telegramID": "Amirr_Akbarii",
+    "email": "amirmahdiakbari@khu.ac.ir",
+    "referrer": "friend"
+  },
+  "track_code": "y7jlwmem3p",
+  "course": {
+    "id": 2,
+    "title": "ریاضی عمومی ۱",
+    "instructor": "شایان عاملی",
+    "date": "27-05-1404",
+    "price": "400000",
+    "start_date": "27-05-1404",
+    "end_date": "27-05-1404",
+    "course_picture": "math1.jpg",
+    "class_number": 3,
+    "teacher": "shayan.png"
+  }
+}

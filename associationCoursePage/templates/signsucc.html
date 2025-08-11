@@ -1,150 +1,289 @@
 {% extends 'base.html' %}
-{% block title %}ثبت‌نام موفق{% endblock %}
-
+{% block title %} 
+ثبت‌نام موفق 
+{% endblock %} 
 {% block content %}
-    <style>
-        body {
-            background: #f5f7fa;
-            font-family: Tahoma, Arial, sans-serif;
-            direction: rtl;
-            color: #333;
-        }
 
-        .success-container {
-            min-height: 80vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+<style>
+  body {
+    background: #f5f7fa;
+    font-family: "Vazirmatn", sans-serif, Arial, Tahoma;
+    direction: rtl;
+    color: #333;
+  }
 
-        .success-box {
-            background: white;
-            max-width: 480px;
-            width: 100%;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+  .success-container {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
 
-        .success-box h1 {
-            color: #27ae60;
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
+  .success-box {
+    background: white;
+    max-width: 480px;
+    width: 100%;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
 
-        .success-box p {
-            font-size: 16px;
-            margin: 12px 0;
-            line-height: 1.5;
-        }
+  .success-box h1 {
+    color: #27ae60;
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
 
-        label[for="trackCodeInput"] {
-            display: block;
-            margin-top: 25px;
-            margin-bottom: 8px;
-            font-weight: bold;
-            font-size: 18px;
-        }
+  .success-box p {
+    font-size: 16px;
+    margin: 12px 0;
+    line-height: 1.5;
+  }
 
-        #trackCodeInput {
-            font-size: 20px;
-            padding: 10px 12px;
-            width: 100%;
-            max-width: 280px;
-            border: 2px solid #27ae60;
-            border-radius: 6px;
-            text-align: center;
-            direction: ltr;
-            user-select: all;
-            margin: 0 auto 15px;
-            display: block;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+  label[for="trackCodeInput"] {
+    display: block;
+    margin-top: 25px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 18px;
+  }
 
-        #trackCodeInput:focus {
-            outline: none;
-            background-color: #eaf9ea;
-        }
+  #trackCodeInput {
+    font-size: 20px;
+    padding: 10px 12px;
+    width: 100%;
+    max-width: 280px;
+    border: 2px solid #27ae60;
+    border-radius: 6px;
+    text-align: center;
+    direction: ltr;
+    user-select: all;
+    margin: 0 auto 15px;
+    display: block;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 
-        button.copy-btn {
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-bottom: 25px;
-        }
+  #trackCodeInput:focus {
+    outline: none;
+    background-color: #eaf9ea;
+  }
 
-        button.copy-btn:hover {
-            background-color: #219150;
-        }
+  button.copy-btn {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 25px;
+  }
 
-        a.back-btn {
-            display: inline-block;
-            padding: 12px 28px;
-            background-color: #3498db;
-            color: white;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
+  button.copy-btn:hover {
+    background-color: #219150;
+  }
 
-        a.back-btn:hover {
-            background-color: #217dbb;
-        }
+  a.back-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
 
-        .contact-info {
-            font-size: 14px;
-            color: #777;
-            margin-top: 10px;
-            user-select: text;
-        }
-    </style>
+  a.back-btn:hover {
+    background-color: #217dbb;
+  }
 
-    <main class="success-container">
-        <div class="success-box">
-            <h1>ثبت‌نام با موفقیت انجام شد ✅</h1>
-            <p>از ثبت‌نام شما سپاسگزاریم. به زودی به گروه تلگرام دوره اضافه خواهید شد.</p>
-            <p style="color:red;">{{ error }}</p>
+  .contact-info {
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+    user-select: text;
+  }
 
-            <label for="trackCodeInput">کد پیگیری شما:</label>
-            <input type="text" id="trackCodeInput" value="{{ track_code }}" readonly title="برای کپی کلیک کنید"
-                   onclick="this.select()">
+  /*           */
 
-            <button class="copy-btn" onclick="copyTrackCode()">کپی کد پیگیری</button>
+  /* --- استایل کلی کانتینر --- */
+  .success-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #f4f7f9; /* رنگ پس‌زمینه خنثی و ملایم */
+    min-height: 100vh;
+  }
 
-            <p>در صورت بروز هرگونه مشکل، این کد را در اختیار روابط عمومی انجمن علمی قرار دهید.</p>
-            <p class="contact-info">ارتباط با روابط عمومی: اکانت تلگرامی انجمن <strong><p><a
-                    href="https://t.me/ce_khu_admin" target="_blank">@ce_khu_admin</a></p>
-            </strong></p>
+  /* --- استایل کارت اصلی --- */
+  .success-box {
+    background-color: #ffffff;
+    padding: 35px 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    border-top: 5px solid #28a745; /* نوار رنگی موفقیت در بالا */
+  }
 
-            <a href="{% url 'index' %}" class="back-btn">بازگشت به لیست دوره‌ها</a>
-        </div>
-    </main>
+  /* --- استایل عنوان --- */
+  .success-box h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2c3e50; /* یک رنگ تیره‌تر و خواناتر */
+    margin-bottom: 20px;
+  }
 
-    <script>
-        function copyTrackCode() {
-            const copyText = document.getElementById("trackCodeInput");
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); // For mobile devices
+  /* --- استایل پاراگراف‌ها --- */
+  .success-box p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
 
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    alert("کد پیگیری کپی شد: " + copyText.value);
-                } else {
-                    alert("لطفاً کد را به صورت دستی کپی کنید.");
-                }
-            } catch (err) {
-                alert("مرورگر شما از کپی خودکار پشتیبانی نمی‌کند. لطفاً به صورت دستی کپی کنید.");
-            }
-        }
-    </script>
+  /* --- استایل لیبل کد پیگیری --- */
+  .success-box label {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  /* --- استایل اینپوت کد پیگیری --- */
+  #trackCodeInput {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed #ccc; /* استایل خاص برای متمایز شدن */
+    border-radius: 8px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    background-color: #f8f9fa;
+    color: #007bff;
+    cursor: pointer;
+    margin-bottom: 15px;
+    -webkit-user-select: all; /* برای انتخاب راحت‌تر در موبایل */
+    -moz-user-select: all;
+    user-select: all;
+  }
+
+  /* --- استایل دکمه‌ها --- */
+  .copy-btn,
+  .back-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+  }
+
+  .copy-btn {
+    background-color: #007bff; /* رنگ اصلی سایت */
+    color: #fff;
+    margin-bottom: 25px;
+  }
+
+  .copy-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+
+  .back-btn {
+    background-color: #6c757d; /* رنگ دوم برای دکمه بازگشت */
+    color: #fff;
+  }
+
+  .back-btn:hover {
+    background-color: #5a6268;
+  }
+
+  /* --- استایل بخش تماس --- */
+  .contact-info {
+    font-size: 14px;
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  .contact-info a {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .contact-info a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<main class="success-container">
+  <div class="success-box">
+    <h1>ثبت‌نام با موفقیت انجام شد ✅</h1>
+    <p>
+      از ثبت‌نام شما سپاسگزاریم. به زودی به گروه تلگرام دوره اضافه خواهید شد.
+    </p>
+    <p style="color: red">{{ error }}</p>
+
+    <label for="trackCodeInput">کد پیگیری شما:</label>
+    <input
+      type="text"
+      id="trackCodeInput"
+      value="{{ track_code }}"
+      readonly
+      title="برای کپی کلیک کنید"
+      onclick="this.select()"
+    />
+
+    <button class="copy-btn" onclick="copyTrackCode()">کپی کد پیگیری</button>
+
+    <p>
+      در صورت بروز هرگونه مشکل، این کد را در اختیار روابط عمومی انجمن علمی قرار
+      دهید.
+    </p>
+    <p class="contact-info">
+      ارتباط با روابط عمومی: اکانت تلگرامی انجمن
+      <strong
+        ><a href="https://t.me/ce_khu_admin" target="_blank"
+          >@ce_khu_admin</a
+        ></strong
+      >
+    </p>
+
+    <a href="{% url 'index' %}" class="back-btn">بازگشت به لیست دوره‌ها</a>
+  </div>
+</main>
+<script>
+  function copyTrackCode() {
+    const copyText = document.getElementById("trackCodeInput");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    try {
+      const successful = document.execCommand("copy");
+      if (successful) {
+        alert("کد پیگیری کپی شد: " + copyText.value);
+      } else {
+        alert("لطفاً کد را به صورت دستی کپی کنید.");
+      }
+    } catch (err) {
+      alert(
+        "مرورگر شما از کپی خودکار پشتیبانی نمی‌کند. لطفاً به صورت دستی کپی کنید."
+      );
+    }
+  }
+</script>
 {% endblock %}

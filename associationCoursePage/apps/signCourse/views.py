@@ -51,13 +51,13 @@ def sign(request, pk):
             have = True
             while have:
                 have = False
-                with open(f'{settings.BASE_DIR}{file_url}/core/track_codes.txt', 'r') as f:
+                with open(f'{settings.BASE_DIR}{file_url}/core/track_codes.txt', 'r', encoding='utf-8') as f:
                     line_read_file = {line.strip() for line in f}
                     if track_code in line_read_file:
                         ''.join([choice(digits + ascii_lowercase) for _ in range(10)])
                         have = True
 
-            with open(f'{settings.BASE_DIR}{file_url}/core/track_codes.txt', 'a') as f:
+            with open(f'{settings.BASE_DIR}{file_url}/core/track_codes.txt', 'a', encoding='utf-8') as f:
                 f.write(track_code + '\n')
 
             # Save user data as JSON
@@ -102,7 +102,7 @@ def sign(request, pk):
             except:
                 del cleaned['receipt']
                 os.mkdir(f'{settings.BASE_DIR}{file_url}/core/emails/{track_code}')
-                with open(f'{settings.BASE_DIR}{file_url}/core/emails/{track_code}/details.json', 'w') as f:
+                with open(f'{settings.BASE_DIR}{file_url}/core/emails/{track_code}/details.json', 'w', encoding='utf-8') as f:
                     json.dump({'cleaned': cleaned, 'track_code': track_code, 'course': course},
                               f, ensure_ascii=False, indent=2)
 
@@ -120,7 +120,7 @@ def send_emails_offline(req):
     base_url = settings.BASE_DIR
     file_url = settings.FILES_URL
     for file_dir in os.listdir(f'{base_url}{file_url}core/emails'):
-        with open(f'{base_url}{file_url}core/emails/{file_dir}/details.json', 'r') as f:
+        with open(f'{base_url}{file_url}core/emails/{file_dir}/details.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
         cleaned = data['cleaned']
         course = data['course']
