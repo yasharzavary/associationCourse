@@ -1,0 +1,59 @@
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  align-items: start;
+  gap: 40px;
+}
+.main-content {
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+.sidebar {
+  position: sticky;
+  top: 120px;
+}
+.sidebar-widget {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+.sidebar-widget h3 {
+  margin-top: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e8eef3;
+}
+.sidebar-widget ul {
+  list-style: none;
+  padding: 0;
+}
+.sidebar-widget li {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #e8eef3;
+}
+.sidebar-widget li:last-child {
+  border-bottom: none;
+}
+.sidebar-widget .btn {
+  width: 100%;
+  box-sizing: border-box;
+}
+.btn.signup-btn {
+  background: #4a90e2;
+  color: white;
+}
+.btn.secondary-btn {
+  background: #7f8c8d;
+  color: white;
+}
+
+@media (max-width: 992px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
